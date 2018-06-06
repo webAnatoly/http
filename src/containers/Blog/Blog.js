@@ -1,77 +1,26 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
-import axios from '../../axiosInstance';
+import { Route } from 'react-router-dom';
 
-import Post from '../../components/Post/Post';
-import FullPost from '../../components/FullPost/FullPost';
-import NewPost from '../../components/NewPost/NewPost';
+// import Aux from '../../hoc/Aux';
+import Posts from '../Blog/Posts/Posts';
+import NewPost from '../Blog/NewPost/NewPost';
 import './Blog.css';
 
 class Blog extends Component {
-  state = {
-    posts: [],
-    users: [],
-    selectedPostId: null,
-    getPostsError: false,
-    getUsersError: false,
-  }
-  componentDidMount() {
-    axios.get('/posts')
-      .then((res) => {
-        const somePosts = res.data.splice(0, 12);
-        this.setState({ posts: somePosts });
-      })
-      .catch(() => {
-        this.setState({ getPostsError: true });
-      });
-    axios.get('/users')
-      .then((res) => {
-        this.setState({ users: res.data });
-      })
-      .catch(() => {
-        this.setState({ getUsersError: true });
-      });
-  }
-  postSelectedHandler = (id) => {
-    this.setState({ selectedPostId: id });
-  }
+  state = {}
   render() {
-    let posts = <Post />;
-    if (this.state.getPostsError) {
-      posts = <Post title="Error" author="" body="Some error occured" />;
-    }
-    if (this.state.posts.length > 0) {
-      posts = this.state.posts.map((post) => {
-        let author = 'Author';
-        if (this.state.users.length > 0) {
-          author = this.state.users[post.userId - 1].username;
-        }
-        if (this.state.getUsersError) { author = 'Error in getting author'; }
-        return (
-          <Post
-            title={post.title}
-            body={post.body}
-            key={post.id}
-            author={author}
-            clicked={() => this.postSelectedHandler(post.id)}
-          />
-        );
-      });
-    }
     return (
       <div>
-        <section className="Posts">
-          {posts}
-        </section>
-        <section>
-          <FullPost
-            id={this.state.selectedPostId}
-            posts={this.state.posts}
-          />
-        </section>
-        <section>
-          <NewPost />
-        </section>
+        <header className="Blog">
+          <nav>
+            <ul>
+              <li><a href="/">HOME</a></li>
+              <li><a href="/new-post">Add Post</a></li>
+            </ul>
+          </nav>
+        </header>
+        <Route path="/" exact component={Posts} />
+        <Route path="/new-post" component={NewPost} />
       </div>
     );
   }

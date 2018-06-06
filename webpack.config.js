@@ -42,7 +42,7 @@ module.exports = {
     ],
   },
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true, // Чтобы работал react-router
   },
   plugins: [
     new HtmlWebPackPlugin({
