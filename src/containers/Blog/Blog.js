@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 
 // import Aux from '../../hoc/Aux';
 import Posts from '../Blog/Posts/Posts';
@@ -14,13 +14,15 @@ class Blog extends Component {
         <header className="Blog">
           <nav>
             <ul>
-              <li><a href="/">HOME</a></li>
-              <li><a href="/new-post">Add Post</a></li>
+              <li><Link to="/">HOME</Link></li> {/* Link не перезагружает страницу */}
+              <li><Link to="/new-post">Add Post</Link></li>
             </ul>
           </nav>
         </header>
-        <Route path="/" exact component={Posts} />
-        <Route path="/new-post" component={NewPost} />
+        <Switch>
+          <Route path="/" exact component={Posts} />
+          <Route path="/new-post" component={NewPost} />
+        </Switch>
       </div>
     );
   }
