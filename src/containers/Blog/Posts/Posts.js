@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import axios from '../../../axiosInstance';
+import axiosInstance from '../../../axiosInstance';
 import Post from '../../../components/Post/Post';
 import './Posts.css';
 
@@ -14,23 +14,32 @@ class Posts extends React.Component {
       getPostsError: false,
       getUsersError: false,
     };
+    this.isPostsMounted = true;
   }
+
   componentDidMount() {
-    axios.get('/posts')
+    axiosInstance.get('/posts')
       .then((res) => {
         const somePosts = res.data.splice(0, 12);
-        this.setState({ posts: somePosts });
+        if (this.isPostsMounted) {
+          this.setState({ posts: somePosts });
+        }
       })
       .catch(() => {
-        this.setState({ getPostsError: true });
+        this.setState(() => ({ getPostsError: true }));
       });
-    axios.get('/users')
+    axiosInstance.get('/users')
       .then((res) => {
-        this.setState({ users: res.data });
+        if (this.isPostsMounted) {
+          this.setState({ users: res.data });
+        }
       })
       .catch(() => {
-        this.setState({ getUsersError: true });
+        this.setState(() => ({ getUsersError: true }));
       });
+  }
+  componentWillUnmount() {
+    this.isPostsMounted = false;
   }
   postSelectedHandler = () => {
     // this.setState({ selectedPostId: id });

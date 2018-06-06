@@ -14,8 +14,21 @@ class Blog extends Component {
         <header className="Blog">
           <nav>
             <ul>
-              <li><Link to="/">HOME</Link></li> {/* Link не перезагружает страницу */}
-              <li><Link to="/new-post">Add Post</Link></li>
+              <li>
+                <Link to="/">HOME</Link>
+                {/* Link не перезагружает страницу */}
+              </li>
+              <li>
+                <Link to={
+                  {
+                    pathname: '/new-post',
+                    hash: '#sumbit',
+                    search: '?quick-submit=true',
+                  }}
+                >
+                  Add Post
+                </Link>
+              </li>
             </ul>
           </nav>
         </header>
