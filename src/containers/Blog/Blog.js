@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 // import Aux from '../../hoc/Aux';
 import Posts from '../Blog/Posts/Posts';
@@ -32,10 +32,8 @@ class Blog extends Component {
             </ul>
           </nav>
         </header>
-        <Switch>
-          <Route path="/" exact component={Posts} />
-          <Route path="/new-post" component={NewPost} />
-        </Switch>
+        <Route path="/" component={Posts} />
+        <Route path="/new-post" component={NewPost} />
       </div>
     );
   }

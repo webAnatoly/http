@@ -16,12 +16,13 @@ class Posts extends React.Component {
     };
     this.isPostsMounted = true;
   }
-
   componentDidMount() {
     axiosInstance.get('/posts')
       .then((res) => {
         const somePosts = res.data.splice(0, 12);
         if (this.isPostsMounted) {
+          /* "Если на момент получаения ответа сервера компонент" существует в DOM,
+          то можно менять его state */
           this.setState({ posts: somePosts });
         }
       })
@@ -31,6 +32,8 @@ class Posts extends React.Component {
     axiosInstance.get('/users')
       .then((res) => {
         if (this.isPostsMounted) {
+          /* "Если на момент получаения ответа сервера компонент" существует в DOM,
+          то можно менять его state */
           this.setState({ users: res.data });
         }
       })
