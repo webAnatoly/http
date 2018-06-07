@@ -15,16 +15,26 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <NavLink to="/">HOME</NavLink>
+                <NavLink
+                  to="/"
+                  exact
+                  activeClassName="my-active" // Можно свой класс добавить
+                >
+                  HOME
+                </NavLink>
                 {/* Link и  NavNavLink не перезагружают страницу
                 потому-что реакт на onclick вешает пустую функцию */}
               </li>
               <li>
-                <NavLink to={
-                  {
+                <NavLink
+                  to={{
                     pathname: '/new-post',
                     hash: '#sumbit',
                     search: '?quick-submit=true',
+                  }}
+                  activeStyle={{ // Можно инлайн стили
+                    fontWeight: 'bold',
+                    color: 'red',
                   }}
                 >
                   Add Post
