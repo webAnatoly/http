@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route, NavLink } from 'react-router-dom';
 
 // import Aux from '../../hoc/Aux';
 import Posts from '../Blog/Posts/Posts';
@@ -15,11 +15,12 @@ class Blog extends Component {
           <nav>
             <ul>
               <li>
-                <Link to="/">HOME</Link>
-                {/* Link не перезагружает страницу */}
+                <NavLink to="/">HOME</NavLink>
+                {/* Link и  NavNavLink не перезагружают страницу
+                потому-что реакт на onclick вешает пустую функцию */}
               </li>
               <li>
-                <Link to={
+                <NavLink to={
                   {
                     pathname: '/new-post',
                     hash: '#sumbit',
@@ -27,12 +28,12 @@ class Blog extends Component {
                   }}
                 >
                   Add Post
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </nav>
         </header>
-        <Route path="/" component={Posts} />
+        <Route path="/" exact component={Posts} />
         <Route path="/new-post" component={NewPost} />
       </div>
     );
