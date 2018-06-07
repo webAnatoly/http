@@ -65,7 +65,6 @@ class Posts extends React.Component {
             body={post.body}
             key={post.id}
             author={author}
-            {...this.props}
             clicked={() => this.postSelectedHandler(post.id)}
           />
         );

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import './Post.css';
 
@@ -28,7 +29,9 @@ const post = (props) => {
   );
 };
 
-export default post;
+export default withRouter(post);
+/* withRouter это Hight Order Component, его задача прокидывать пропсы от компонента Route
+такие как match, history, location */
 
 
 post.propTypes = {
