@@ -8,21 +8,31 @@ class FullPost extends Component {
   state = {
     loadedPost: null,
   }
-  componentDidUpdate() {
-    if ((!this.state.loadedPost && this.props.id) ||
-        (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)) {
-      const url = `/posts/${this.props.id}`;
-      axios.get(url)
-        .then((res) => {
-          this.setState({ loadedPost: res.data });
-        })
-        .catch(() => {
-          // Error handler should be here
-        });
-    }
+  componentDidMount() {
+    // if ((!this.state.loadedPost && this.props.match.params.id) ||
+    //   (this.state.loadedPost && this.state.loadedPost.id !== this.props.match.params.id)) {
+    //   const url = `/posts/${this.props.match.params.id}`;
+    //   axios.get(url)
+    //     .then((res) => {
+    //       this.setState({ loadedPost: res.data });
+    //     })
+    //     .catch(() => {
+    //       // Error handler should be here
+    //     });
+    // }
+    // Условие if мне кажется здесь уже не нужно. Оно было нужно в componentDidUpdate,
+    // чтобы избежать цикличной отправки запроса.
+    const url = `/posts/${this.props.match.params.id}`;
+    axios.get(url)
+      .then((res) => {
+        this.setState({ loadedPost: res.data });
+      })
+      .catch(() => {
+        // Error handler should be here
+      });
   }
   deletePostHandler = () => {
-    const url = `/posts/${this.props.id}`;
+    const url = `/posts/${this.props.match.params.id}`;
     axios.delete(url)
       .then(() => {
         // console.log(res);
@@ -32,8 +42,9 @@ class FullPost extends Component {
       });
   }
   render() {
+    console.log('[FullPostComponent]:', this.props.match.params.id);
     let fullPost = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
-    if (this.props.id) {
+    if (this.props.match.params.id) {
       fullPost = <p style={{ textAlign: 'center' }}>Loading...</p>;
     }
     if (this.state.loadedPost) {
@@ -52,11 +63,15 @@ class FullPost extends Component {
 }
 
 FullPost.propTypes = {
-  id: PropTypes.number,
+  match: PropTypes.oneOfType([PropTypes.object]),
+  params: PropTypes.oneOfType([PropTypes.object]),
+  id: PropTypes.string,
 };
 
 FullPost.defaultProps = {
-  id: null,
+  match: {},
+  params: {},
+  id: '',
 };
 
 export default FullPost;
