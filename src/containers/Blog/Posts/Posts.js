@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import axiosInstance from '../../../axiosInstance';
 import Post from '../../../components/Post/Post';
 import './Posts.css';
@@ -46,8 +45,11 @@ class Posts extends React.Component {
     this.isPostsMounted = false;
   }
   postSelectedHandler = (id) => {
-    console.log('clickHandler', id);
-    // this.setState({ selectedPostId: id });
+    this.props.history.push({ pathname: `/${id}` });
+    /* метод push() может принимать как объект, так и строку.
+    Например вот так тоже можно
+    this.props.history.push(`/${id}`);
+    */
   }
   render() {
     let posts = <Post />;
@@ -62,14 +64,15 @@ class Posts extends React.Component {
         }
         if (this.state.getUsersError) { author = 'Error in getting author'; }
         return (
-          <Link to={`/${post.id}`} key={post.id}>
-            <Post
-              title={post.title}
-              body={post.body}
-              author={author}
-              clicked={() => this.postSelectedHandler(post.id)}
-            />
-          </Link>
+          // <Link to={`/${post.id}`}>
+          <Post
+            title={post.title}
+            body={post.body}
+            author={author}
+            clicked={() => this.postSelectedHandler(post.id)}
+            key={post.id}
+          />
+          // </Link>
         );
       });
     }
@@ -82,12 +85,12 @@ class Posts extends React.Component {
 }
 
 
-// Posts.propTypes = {
+Posts.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]),
+};
 
-// };
-
-// Posts.defaultProps = {
-
-// };
+Posts.defaultProps = {
+  history: {},
+};
 
 export default Posts;
