@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 // import PropTypes from 'prop-types';
 import axiosInstance from '../../../axiosInstance';
 import Post from '../../../components/Post/Post';
@@ -44,7 +45,8 @@ class Posts extends React.Component {
   componentWillUnmount() {
     this.isPostsMounted = false;
   }
-  postSelectedHandler = () => {
+  postSelectedHandler = (id) => {
+    console.log('clickHandler', id);
     // this.setState({ selectedPostId: id });
   }
   render() {
@@ -60,13 +62,14 @@ class Posts extends React.Component {
         }
         if (this.state.getUsersError) { author = 'Error in getting author'; }
         return (
-          <Post
-            title={post.title}
-            body={post.body}
-            key={post.id}
-            author={author}
-            clicked={() => this.postSelectedHandler(post.id)}
-          />
+          <Link to={`/${post.id}`} key={post.id}>
+            <Post
+              title={post.title}
+              body={post.body}
+              author={author}
+              clicked={() => this.postSelectedHandler(post.id)}
+            />
+          </Link>
         );
       });
     }
