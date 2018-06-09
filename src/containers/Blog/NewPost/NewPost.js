@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 import './NewPost.css';
 
@@ -8,6 +9,7 @@ class NewPost extends Component {
     title: '',
     content: '',
     author: 'Max',
+    submitted: false,
   }
 
   postDataHandler = () => {
@@ -16,9 +18,19 @@ class NewPost extends Component {
       body: this.state.content,
       author: this.state.author,
     };
-    axios.post('/posts', myData) // axios сам конвертирует объект в JSON формат
-      .then(() => {
-        // console.log(res);
+    axios.post('/posts', myData)
+    /* Метод POST для отправки данных на сервер.
+    axios сам конвертирует объект в JSON формат */
+      .then((res) => {
+        /* Так как используется тестовый сервер jsonplaceholder.typicode.com
+        то в случае успешной отправки данных этот сервер просто возвращает эти данные обратно.
+        На реальном сервере естественно с этими данными можно что-то делать.
+        Ну и в ответ он конечно же тоже что-то пришлёт.
+        Например http заголовки, статус и т.д. и т.п.
+        Всё это зависит от настроек сервера и от протокола.
+        */
+        console.log('[post http method]', res);
+        this.setState({ submitted: true });
       })
       .catch(() => {
         // Error handler should be here
@@ -26,8 +38,13 @@ class NewPost extends Component {
   }
 
   render() {
+    let redirect = null;
+    if (this.state.submitted) {
+      redirect = <Redirect to="/posts" />;
+    }
     return (
       <div className="NewPost">
+        {redirect}
         <h1>Add a Post</h1>
         <label htmlFor="title">
             Title
