@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 import './NewPost.css';
 
@@ -9,7 +9,6 @@ class NewPost extends Component {
     title: '',
     content: '',
     author: 'Max',
-    submitted: false,
   }
 
   postDataHandler = () => {
@@ -30,7 +29,13 @@ class NewPost extends Component {
         Всё это зависит от настроек сервера и от протокола.
         */
         console.log('[post http method]', res);
-        this.setState({ submitted: true });
+        /* метод history.replace() из библиотеки react-route удаляет "страницу" из стока страниц
+        и заменяет её новой. Т.е. нельзя будет вернутся на неё нажав на кнопку "назад" в браузере.
+        Если нужна возможность возвращения на предыдущею страницу, то нужно использовать
+        метод history.push() this.props.history.push('/posts');
+        */
+        this.props.history.replace('/posts');
+        // this.props.history.push('/posts');
       })
       .catch(() => {
         // Error handler should be here
@@ -38,13 +43,8 @@ class NewPost extends Component {
   }
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
-      redirect = <Redirect to="/posts" />;
-    }
     return (
       <div className="NewPost">
-        {redirect}
         <h1>Add a Post</h1>
         <label htmlFor="title">
             Title
@@ -80,5 +80,9 @@ class NewPost extends Component {
     );
   }
 }
+
+NewPost.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
 
 export default NewPost;
