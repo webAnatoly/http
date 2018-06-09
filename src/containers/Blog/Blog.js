@@ -4,7 +4,6 @@ import { Route, NavLink, Switch } from 'react-router-dom';
 // import Aux from '../../hoc/Aux';
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
-import FullPost from './FullPost/FullPost';
 import './Blog.css';
 
 class Blog extends Component {
@@ -17,11 +16,11 @@ class Blog extends Component {
             <ul>
               <li>
                 <NavLink
-                  to="/"
+                  to="/posts"
                   exact
                   activeClassName="my-active" // Можно свой класс добавить
                 >
-                  HOME
+                  Posts
                 </NavLink>
                 {/* Link и  NavNavLink не перезагружают страницу
                 потому-что реакт на onclick вешает пустую функцию */}
@@ -45,9 +44,8 @@ class Blog extends Component {
           </nav>
         </header>
         <Switch>
-          <Route path="/" exact component={Posts} />
-          <Route path="/new-post" exact component={NewPost} />
-          <Route path="/:id" component={FullPost} />
+          <Route path="/new-post" component={NewPost} />
+          <Route path="/posts" component={Posts} />
         </Switch>
       </div>
     );

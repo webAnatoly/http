@@ -10,14 +10,14 @@ axios.defaults.headers.common.Authorization = 'YOUR_AUTH_TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.request.use((request) => {
-  console.log(request);
+  console.log('[Request]', request);
   // Do something before request is sent
   // You can also edit request congig here before you return it.
   // That's the idea behind the interceptor.
   // For example you can add headers and so on.
   return request;
 }, (error) => {
-  console.log(error);
+  console.log('[Request global error]', error);
   return Promise.reject(error);
   /*
   We should also return promise reject error here though so that we still forward it to
@@ -32,7 +32,7 @@ axios.interceptors.request.use((request) => {
 });
 
 axios.interceptors.response.use((response) => {
-  console.log(response);
+  console.log('[Response]', response);
   return response;
 }, (error) => {
   console.log('[Response global error]', error);

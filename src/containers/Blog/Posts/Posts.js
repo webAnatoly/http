@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Route } from 'react-router-dom';
+
 import axiosInstance from '../../../axiosInstance';
 import Post from '../../../components/Post/Post';
+import FullPost from '../FullPost/FullPost';
 import './Posts.css';
 
 class Posts extends React.Component {
@@ -45,8 +48,8 @@ class Posts extends React.Component {
     this.isPostsMounted = false;
   }
   postSelectedHandler = (id) => {
-    this.props.history.push({ pathname: `/${id}` });
-    /* метод push() может принимать как объект, так и строку.
+    this.props.history.push({ pathname: `${this.props.match.url}/${id}` });
+    /* метод из библиотеки react-router push() может принимать как объект, так и строку.
     Например вот так тоже можно
     this.props.history.push(`/${id}`);
     */
@@ -76,21 +79,26 @@ class Posts extends React.Component {
         );
       });
     }
+    const path = `${this.props.match.url}/:id`; // формируем строку-путь для Route
     return (
-      <section className="Posts">
-        {posts}
-      </section>
+      <div>
+        <section className="Posts">
+          {posts}
+        </section>
+        <Route path={path} component={FullPost} />
+      </div>
     );
   }
 }
 
 
 Posts.propTypes = {
-  history: PropTypes.oneOfType([PropTypes.object]),
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  match: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
-Posts.defaultProps = {
-  history: {},
-};
+// Posts.defaultProps = {
+
+// };
 
 export default Posts;
