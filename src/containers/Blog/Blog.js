@@ -8,7 +8,7 @@ import './Blog.css';
 
 class Blog extends Component {
   state = {
-    auth: true,
+    auth: false,
   }
   render() {
     return (
@@ -48,8 +48,9 @@ class Blog extends Component {
         <Switch>
           {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
           <Route path="/posts" component={Posts} />
+          <Route render={() => <h1>Not found</h1>} />
           {/* С помощью Redirect перенаправляем с одной "страницы" на другую. */}
-          <Redirect from="/" to="/posts" />
+          {/* <Redirect from="/" to="/posts" /> */}
         </Switch>
       </div>
     );
