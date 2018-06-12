@@ -3,3 +3,5 @@
 https://jsonplaceholder.typicode.com/ - сервис для эмитации бэкэнда. 
 
 https://github.com/axios/axios - библиотека для более удобного управления отправкой http запросов. 
+
+Так же в этом проекте тренировался работать с React Router
