@@ -6,7 +6,11 @@ class App extends Component {
   state = {}
   render() {
     return (
-      <BrowserRouter>
+      <BrowserRouter basename="/">
+        {/* basename указывается если приложение хостится не в корневую дерикторию,
+        а в поддерриктронию например если http://mysite.com/my-app
+        basename="/my-app"
+         */}
         <div className="App">
           <Blog />
         </div>
