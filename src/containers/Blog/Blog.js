@@ -1,14 +1,28 @@
 import React, { Component } from 'react';
-import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import { Route, NavLink, Switch } from 'react-router-dom';
 
 // import Aux from '../../hoc/Aux';
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+import asyncComponent from '../../hoc/asyncComponent';
+// import NewPost from './NewPost/NewPost';
 import './Blog.css';
+
+const AsyncNewPost = asyncComponent(() => import('./NewPost/NewPost'));
+/* Функция AsyncNewPost реализует динамическую подгрузку модуля(компонента) NewPost.js:
+В качестве коллбека передается анонимная функция которая возвращает вызов функции import()
+import('../path/to/your/file') это фича из ECMAScript, для динамической подгрузки модулей
+import('../path/to/your/file') возвращает Promise, а в качестве аргумента принимает путь к модулю,
+который необходимо подгрузить динамически.
+Подробнее можно почитать по ссылкам:
+http://2ality.com/2017/01/import-operator.html - cтатья с примерами
+https://github.com/tc39/proposal-dynamic-import
+https://tc39.github.io/proposal-dynamic-import/ - Draft of spec for import()
+https://webpack.js.org/api/module-methods/#import-  - использование import() в webpack
+*/
 
 class Blog extends Component {
   state = {
-    auth: false,
+    auth: true,
   }
   render() {
     return (
@@ -46,7 +60,11 @@ class Blog extends Component {
           </nav>
         </header>
         <Switch>
-          {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
+          {/* здесь в свойстве component вместо NewPost мы использует HOC
+            AsyncNewPost для реализации техники azi loading
+            Такой способ динамической подгрузки модуля работает только в react-route 4 версии
+          */}
+          {this.state.auth ? <Route path="/new-post" component={AsyncNewPost} /> : null}
           <Route path="/posts" component={Posts} />
           <Route render={() => <h1>Not found</h1>} />
           {/* С помощью Redirect перенаправляем с одной "страницы" на другую. */}
